@@ -1,24 +1,42 @@
 export function printOwing(invoice) {
-  let outstanding = 0;
+  printBanner();
 
-  console.log('***********************');
-  console.log('**** Customer Owes ****');
-  console.log('***********************');
+  let outstanding = calculateOutstanding(invoice);
 
-  // calculate outstanding
-  for (const o of invoice.orders) {
-    outstanding += o.amount;
-  }
+  recordDueDate(invoice);
 
-  // record due date
+  printDetails(invoice, outstanding);
+}
+
+function printBanner() {
+  console.log("***********************");
+  console.log("**** Customer Owes ****");
+  console.log("***********************");
+}
+
+function calculateOutstanding(invoice) {
+  // 함수 내에서 반환하는 목적을 가진다면 result라는 이름을 많이 사용함.
+  // outstanding -> result
+  // let result = 0;
+  // for (const o of invoice.orders) {
+  //   result += o.amount;
+  // }
+  // return result;
+
+  // 반복문을 파이프라인으로 변경
+  return invoice.orders.reduce((sum, order) => (sum += order.amount), 0);
+}
+
+function recordDueDate(invoice) {
   const today = new Date();
   invoice.dueDate = new Date(
     today.getFullYear(),
     today.getMonth(),
     today.getDate() + 30
   );
+}
 
-  //print details
+function printDetails(invoice, outstanding) {
   console.log(`name: ${invoice.customer}`);
   console.log(`amount: ${outstanding}`);
   console.log(`due: ${invoice.dueDate.toLocaleDateString()}`);
@@ -26,6 +44,6 @@ export function printOwing(invoice) {
 
 const invoice = {
   orders: [{ amount: 2 }, { amount: 5 }],
-  customer: '엘리',
+  customer: "엘리",
 };
 printOwing(invoice);
