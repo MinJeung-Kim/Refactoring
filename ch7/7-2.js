@@ -11,11 +11,24 @@ export class Person {
   }
 
   get courses() {
-    return this.#courses;
+    // 새로운 배열을 만들어서 전달
+    return [...this.#courses];
   }
 
-  set courses(courses) {
-    this.#courses = courses;
+  // 강의를 추가하는 함수
+  addCourse(course) {
+    this.#courses.push(course);
+  }
+
+  // 강의를 삭제하는 함수
+  removeCourse(course, runIfAbsent) {
+    const index = this.#courses.indexOf(course);
+    if (index === -1) {
+      runIfAbsent();
+      return;
+    }
+
+    this.#courses.splice(index, 1);
   }
 }
 
@@ -36,6 +49,13 @@ export class Course {
   }
 }
 
-const ellie = new Person('엘리');
-ellie.courses.push(new Course('리팩토링', true));
-console.log(ellie.courses.length);
+const people = new Person("록시");
+const course = new Course("리팩토링", true);
+people.addCourse(course);
+console.log(people.courses.length); // 1
+people.removeCourse(course, () => {
+  console.log("해당코스는 없다."); // 0
+});
+people.removeCourse(course, () => {
+  console.log("해당코스는 없다."); // 해당코스는 없다.
+});
