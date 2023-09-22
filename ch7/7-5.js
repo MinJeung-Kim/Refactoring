@@ -1,11 +1,9 @@
 class Person {
   #name;
-  #officeAreaCode;
-  #officeNumber;
+  #telephoneNumber;
   constructor(name, areaCode, number) {
     this.#name = name;
-    this.#officeAreaCode = areaCode;
-    this.#officeNumber = number;
+    this.#telephoneNumber = new this.#telephoneNumber(areaCode, number);
   }
 
   get name() {
@@ -17,27 +15,51 @@ class Person {
   }
 
   get telephoneNumber() {
-    return `(${this.officeAreaCode}) ${this.officeNumber}`;
+    return this.#telephoneNumber.toString;
   }
 
   get officeAreaCode() {
-    return this.#officeAreaCode;
+    return this.#telephoneNumber.areaCode;
   }
-
-  set officeAreaCode(arg) {
-    this.#officeAreaCode = arg;
-  }
-
   get officeNumber() {
-    return this.#officeNumber;
-  }
-
-  set officeNumber(arg) {
-    this.#officeNumber = arg;
+    return this.#telephoneNumber.number;
   }
 }
 
-const person = new Person('엘리', '010', '12345678');
+class TelephoneNumber {
+  #areaCode;
+  #number;
+  constructor(area, number) {
+    this.#areaCode = area;
+    this.#number = number;
+  }
+
+  get areaCode() {
+    return this.#areaCode;
+  }
+
+  set areaCode(arg) {
+    this.#areaCode = arg;
+  }
+
+  get number() {
+    return this.#number;
+  }
+
+  set number(arg) {
+    this.#number = arg;
+  }
+
+  get toString() {
+    return `(${this.#areaCode}) ${this.#number}`;
+  }
+}
+
+const telephoneNumber = new TelephoneNumber("010", "12345678");
+telephoneNumber.toString();
+
+// const person = new Person("록시", telephoneNumber);
+const person = new Person("록시", "010", "12345678");
 console.log(person.name);
 console.log(person.officeAreaCode);
 console.log(person.officeNumber);

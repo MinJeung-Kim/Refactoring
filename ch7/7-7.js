@@ -10,6 +10,15 @@ class Person {
     return this.#name;
   }
 
+  // 위임을 숨겨서 외부에서 내부 사항을 신경쓰지않고 필요한 정보에 접근 할 수 있다.
+  get manager() {
+    return this.#department.manager;
+  }
+
+  get chargeCode() {
+    return this.#department.chargeCode;
+  }
+
   get department() {
     return this.#department;
   }
@@ -44,7 +53,7 @@ export class Department {
   }
 }
 
-const person = new Person('Tom', new Department('aManager', '999'));
+const person = new Person("Tom", new Department("aManager", "999"));
 console.log(person.name);
-console.log(person.department.manager);
-console.log(person.department.chargeCode);
+console.log(person.manager);
+console.log(person.chargeCode);
